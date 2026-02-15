@@ -1,0 +1,12 @@
+clear
+factorial() {
+    ValoareFactorial=1
+    for ((i=1; i<=$1; i++)); 
+    do
+        ValoareFactorial=$((result * i))
+    done
+    echo "$ValoareFactorial"
+}
+
+
+factorial 5

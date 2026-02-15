@@ -1,0 +1,378 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <string>
+#include <vector>
+#include <map>
+
+using namespace std;
+
+class Publicatie {
+protected:
+    string ISBN;
+    string titlu;
+    double pret;
+    int anPublicare;
+    string categorie;
+    double rating;
+    int numarRecenzii;
+
+public:
+    Publicatie()
+        : ISBN(""), titlu(""), pret(0.0), anPublicare(0),
+        categorie(""), rating(0.0), numarRecenzii(0) {
+    }
+
+    Publicatie(string ISBN, string titlu, double pret, int anPublicare,
+        string categorie, double rating, int numarRecenzii)
+        : ISBN(ISBN), titlu(titlu), pret(pret), anPublicare(anPublicare),
+        categorie(categorie), rating(rating), numarRecenzii(numarRecenzii) {
+    }
+
+    string getISBN() const
+    {
+        return ISBN;
+    }
+
+    virtual string getTip() const = 0;
+
+    virtual double getPretFinal() const {
+        return pret;
+    }
+    string getTitlu() const
+    {
+        return titlu;
+    }
+
+    string getCategorie() const
+    {
+        return categorie;
+    }
+
+    double getRating() const
+    {
+        return rating;
+    }
+
+    virtual bool areRating() const {
+        return numarRecenzii > 0;
+    }
+
+
+    virtual ~Publicatie() = default;
+
+    friend ostream& operator<<(ostream& os, const Publicatie& p) {
+        os << "ISBN: " << (p.ISBN != "" ? p.ISBN : "(NULL)") << "\n";
+        os << "Titlu: " << (p.titlu != "" ? p.titlu : "(NULL)") << "\n";
+        os << "Pret: " << p.pret << "\n";
+        os << "An publicare: " << p.anPublicare << "\n";
+        os << "Categorie: " << (p.categorie != "" ? p.categorie : "(NULL)") << "\n";
+        os << "Rating: " << p.rating << "\n";
+        os << "Numar recenzii: " << p.numarRecenzii << "\n";
+        return os;
+    }
+};
+
+class Carte : public Publicatie {
+protected:
+    string autor;
+    int numarPagini;
+
+public:
+    Carte() : Publicatie(), autor(""), numarPagini(0) {}
+
+    Carte(string ISBN, string titlu, double pret, int anPublicare, string categorie,
+        double rating, int numarRecenzii, string autor, int numarPagini)
+        : Publicatie(ISBN, titlu, pret, anPublicare, categorie, rating, numarRecenzii),
+        autor(autor), numarPagini(numarPagini) {
+    }
+
+    string getTip() const override {
+        return "carte";
+    }
+
+    double getPretFinal() const override {
+        if (numarRecenzii > 100) return pret * 0.85; // 15% reducere
+        return pret;
+    }
+
+    ~Carte() override = default;
+
+    friend ostream& operator<<(ostream& os, const Carte& c) {
+        os << static_cast<const Publicatie&>(c);
+        os << "Autor: " << c.autor << "\n";
+        os << "Numar de pagini: " << c.numarPagini << "\n";
+        return os;
+    }
+};
+
+class Revista : public Publicatie {
+protected:
+    int numarEditie;
+    int luna;
+
+public:
+    Revista() : Publicatie(), numarEditie(0), luna(0) {}
+
+    Revista(string ISBN, string titlu, double pret, int anPublicare, string categorie,
+        double rating, int numarRecenzii, int numarEditie, int luna)
+        : Publicatie(ISBN, titlu, pret, anPublicare, categorie, rating, numarRecenzii),
+        numarEditie(numarEditie), luna(luna) {
+    }
+
+    string getTip() const override {
+        return "revista";
+    }
+
+    double getPretFinal() const override {
+        return pret;
+    }
+
+    bool areRating() const override {
+        return false;
+    }
+
+    ~Revista() override = default;
+
+    friend ostream& operator<<(ostream& os, const Revista& r) {
+        os << static_cast<const Publicatie&>(r);
+        os << "Numar editie: " << r.numarEditie << "\n";
+        os << "Luna: " << r.luna << "\n";
+        return os;
+    }
+};
+
+class Ebook : public Carte {
+protected:
+    double dimensiuneFisier;
+
+public:
+    Ebook() : Carte(), dimensiuneFisier(0.0) {}
+
+    Ebook(string ISBN, string titlu, double pret, int anPublicare, string categorie,
+        double rating, int numarRecenzii, string autor, int numarPagini, double dimensiuneFisier)
+        : Carte(ISBN, titlu, pret, anPublicare, categorie, rating, numarRecenzii, autor, numarPagini),
+        dimensiuneFisier(dimensiuneFisier) {
+    }
+
+    string getTip() const override {
+        return "ebook";
+    }
+
+    double getPretFinal() const override {
+        return pret * 0.7; // 30% reducere
+    }
+
+    ~Ebook() override = default;
+
+    friend ostream& operator<<(ostream& os, const Ebook& e) {
+        os << static_cast<const Carte&>(e);
+        os << "Dimensiune fisier: " << e.dimensiuneFisier << "\n";
+        return os;
+    }
+};
+class Librarie
+{
+private:
+    vector<Publicatie*> publicatii;
+    double venittotal;
+    map<string, int> vanzaripetip;
+
+public:
+    Librarie() : venittotal(0.0) {}
+    ~Librarie() 
+    {
+        for (int i = 0; i < publicatii.size(); i++)
+            delete publicatii[i];
+        publicatii.clear();
+    } 
+   
+    
+    void adaugaPublicatie(Publicatie* p)
+    {
+        if (p == nullptr)
+            return;
+        
+        for (int i = 0; i < publicatii.size(); i++)
+        {
+            if (publicatii[i]->getISBN() == p->getISBN())
+                return;
+        }
+        publicatii.push_back(p);
+    }
+
+    friend ostream& operator<<(ostream& out , const Librarie& l)
+    {
+        for (int i = 0; i < l.publicatii.size(); i++)
+        {
+            Carte* c = dynamic_cast<Carte*>(l.publicatii[i]);
+            Ebook* e = dynamic_cast<Ebook*>(l.publicatii[i]);
+            if (c != nullptr)
+            {
+                out << *c << endl;
+            }
+       }
+        return out;
+    }
+    void vinde(string ISBN, int cantitate)
+    {
+        for (int i = 0; i < publicatii.size(); i++) //parcurgere publicatii din librarie
+        {
+            if (publicatii[i]->getISBN() == ISBN)
+            {
+                double venit;
+                venit = publicatii[i]->getPretFinal() * cantitate;
+                venittotal = venittotal + venit;
+                vanzaripetip[publicatii[i]->getTip()] = vanzaripetip[publicatii[i]->getTip()] + cantitate; //pentru a returna valorile string ului din map actualizata
+                return;
+            }
+        }
+    }
+     
+    vector<Publicatie*> operator[](double pretMaxim)
+    {
+        vector<Publicatie*> rezultatcalcul;
+        for (int i = 0; i < publicatii.size(); i++)
+        {
+            if (publicatii[i]->getPretFinal() <= pretMaxim)
+            {
+                rezultatcalcul.push_back(publicatii[i]);
+
+            }
+        }
+        return rezultatcalcul;
+    }
+    void genereazaRaportPreferinteVanzari(vector<string> ISBNuriVandute)
+    {
+        map<string, int> frecventa;
+
+        for (int i = 0; i < ISBNuriVandute.size(); i++)
+        {
+            frecventa[ISBNuriVandute[i]] = frecventa[ISBNuriVandute[i]] + 1;
+        }
+
+        vector<pair<string, int>> top;
+        for (map<string, int>::iterator it = frecventa.begin(); it != frecventa.end(); ++it)
+        {
+            top.push_back(make_pair(it->first, it->second));
+        }
+
+        
+        for (int i = 0; i < top.size(); i++)
+        {
+            for (int j = i + 1; j < top.size(); j++)
+            {
+                if (top[j].second > top[i].second)
+                {
+                    pair<string, int> aux = top[i];
+                    top[i] = top[j];
+                    top[j] = aux;
+                }
+            }
+        }
+
+        
+        map<string, double> sumaRating;
+        map<string, int> nrCarti;
+
+        for (int i = 0; i < publicatii.size(); i++)
+        {
+            
+            Carte* c = dynamic_cast<Carte*>(publicatii[i]);
+
+            if (c != nullptr && c->areRating())
+            {
+                string cat = c->getCategorie();
+                sumaRating[cat] = sumaRating[cat] + c->getRating();
+                nrCarti[cat] = nrCarti[cat] + 1;
+            }
+        }
+
+        map<string, double> medieRating;
+        for (map<string, double>::iterator it = sumaRating.begin(); it != sumaRating.end(); ++it)
+        {
+            string cat = it->first;
+            medieRating[cat] = sumaRating[cat] / nrCarti[cat];
+        }
+
+       
+        cout << "ISBN | Titlu | Categorie | Rating | Rating mediu\n";
+
+        for (int k = 0; k < top.size(); k++)
+        {
+            string isbn = top[k].first;
+
+ 
+            for (int i = 0; i < publicatii.size(); i++)
+            {
+                if (publicatii[i]->getISBN() == isbn)
+                {
+                    Carte* c = dynamic_cast<Carte*>(publicatii[i]);
+
+                    
+                    if (c != nullptr && c->areRating())
+                    {
+                        string cat = c->getCategorie();
+
+                        if (c->getRating() >= medieRating[cat])
+                        {
+                            cout << c->getISBN() << " | "
+                                << c->getTitlu() << " | "
+                                << cat << " | "
+                                << c->getRating() << " | "
+                                << medieRating[cat] << "\n";
+                        }
+                    }
+
+                    break; 
+                }
+            }
+        }
+    }
+
+};
+
+int main()
+{
+    Librarie l;
+
+    l.adaugaPublicatie(new Carte("978-001", "Istoria Frantei", 50, 2020, "Istorie", 4.8, 120, "Autor A", 320));
+    l.adaugaPublicatie(new Carte("978-002", "Istoria romanilor", 55, 2019, "Istorie", 4.9, 80, "Autor B", 410));
+    l.adaugaPublicatie(new Carte("978-003", "1984", 40, 2018, "Fictiune", 4.5, 200, "George Orwell", 300));
+    l.adaugaPublicatie(new Carte("978-004", "Maitreyi", 35, 2017, "Fictiune", 4.2, 60, "M. Eliade", 280));
+    l.adaugaPublicatie(new Carte("978-005", "Ion", 30, 2016, "Fictiune", 4.0, 150, "Liviu Rebreanu", 420));
+
+    l.adaugaPublicatie(new Revista("500-001", "Science Monthly", 20, 2024, "Stiinta", 0, 0, 12, 6));
+    l.adaugaPublicatie(new Ebook("978-007", "Clean Code", 100, 2008, "Tehnic", 4.6, 500, "R. Martin", 464, 3.2));
+
+    cout << "=== CARTI DIN LIBRARIE ===\n";
+    cout << l << "\n";
+
+    l.vinde("978-001", 2);  
+    l.vinde("978-003", 1);  
+
+    
+    vector<string> ISBNuriVandute;
+    ISBNuriVandute.push_back("978-001");
+    ISBNuriVandute.push_back("978-001");
+    ISBNuriVandute.push_back("978-003");
+    ISBNuriVandute.push_back("978-007");
+    ISBNuriVandute.push_back("978-007");
+    ISBNuriVandute.push_back("978-007");
+    ISBNuriVandute.push_back("500-001"); 
+   
+    cout << "\n=== RAPORT PREFERINTE VANZARI ===\n";
+    l.genereazaRaportPreferinteVanzari(ISBNuriVandute);
+
+    
+    cout << "\n=== PUBLICATII CU PRET FINAL <= 40 ===\n";
+    vector<Publicatie*> ieftine = l[40];
+
+    for (int i = 0; i < ieftine.size(); i++)
+    {
+        cout << ieftine[i]->getISBN() << " | "
+            << ieftine[i]->getTitlu() << " | "
+            << ieftine[i]->getPretFinal() << "\n";
+    }
+
+    return 0;
+}

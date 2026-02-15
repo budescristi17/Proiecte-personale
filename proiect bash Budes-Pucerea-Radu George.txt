@@ -1,0 +1,69 @@
+#!/bin/bash
+
+if [[ ! -f "f1_clasament.csv" ]]; then
+  echo "Fișierul 'f1_clasament.csv' nu există. Creează-l cu pico sau nano."
+  exit 1
+fi
+
+if [[ ! -f "castigatori_curse.csv" ]]; then
+echo "Fișierul 'castigatori_curse.csv' nu există. Creează-l cu pico sau nano."
+  exit 1
+fi
+
+afiseaza_clasament() {
+  printf "\n%-8s | %-24s | %-20s | %-10s\n" "Pozitie" "Nume" "Echipa" "Puncte"
+  printf '%.0s-' {1..70}; echo
+  tail -n +2 f1_clasament.csv | while IFS="|" read -r pozitie nume echipa pct; do
+    printf "%-8s | %-24s | %-20s | %-10s\n" "$pozitie" "$nume" "$echipa" "$pct"
+  done
+}
+
+cauta_pilot() {
+  read -p "Introduceți numele complet al pilotului (exact): " caut
+  linie=$(grep -i "|$caut|" f1_clasament.csv)
+
+  if [[ -z "$linie" ]]; then
+    echo "Nu s-a găsit pilotul: $caut"
+  else
+    IFS="|" read pozitie nume echipa pct <<< "$linie"
+    printf "\nRezultat:\n"
+    printf "Pozitie: %s\nEchipa: %s\nPuncte: %s\n\n" "$pozitie" "$echipa" "$pct"
+  fi
+}
+
+afla_castigator() {
+  read -p "Introduceți denumirea cursei: " cursa
+  linie=$(grep -i "^$cursa|" castigatori_curse.csv)
+
+  if [[ -z "$linie" ]]; then
+    echo "Nu avem date pentru cursa '$cursa'."
+  else
+    castigator=$(echo "$linie" | cut -d'|' -f2)
+    echo "Câștigătorul cursei '$cursa' este: $castigator"
+  fi
+  echo
+}
+
+while true; do
+  echo
+  echo "=== Meniu Clasament F1 ==="
+  echo "1) Caută un pilot după nume"
+  echo "2) Afișează clasamentul final"
+  echo "3) Află câștigătorul unei curse"
+  echo "4) Ieșire"
+  read -p "Alege o opțiune [1-4]: " opt
+
+  case $opt in
+    1) cauta_pilot ;;
+    2) afiseaza_clasament ;;
+    3) afla_castigator ;;
+    4)
+      echo "La revedere!"
+      exit 0
+      ;;
+    *) echo "Opțiune invalidă. Încearcă din nou." ;;
+  esac
+done
+
+
+

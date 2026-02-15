@@ -1,0 +1,21 @@
+//Exercitiu 1
+#!/bin/bash
+read -p "Introduceti un numar: " nr
+sum=0
+while [ $nr -ne 0 ]; do
+(( suma += nr % 10 ))
+nr=$(( nr / 10 ))
+done
+echo "Suma cifrelor numarului introdus este: $suma"
+
+//Exercitiu 2
+#!/bin/bash
+echo -n  "Introduceti un numar: "
+read numar
+numar_invers=0
+while [ $numar -gt 0 ]; do
+ultima_cifra=$((numar % 10))
+numar_invers=$((numar_invers * 10 + ultima_cifra))
+numar=$((numar / 10))
+done
+echo "Numarul inversat este: $numar_invers"

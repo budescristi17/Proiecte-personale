@@ -1,0 +1,18 @@
+ls -la
+clear
+maxim()
+{
+  if [ $1 -ge $2 ]
+  then
+  max=$1
+  else
+  max=$2
+  fi
+  if [ $3 -ge $max ]
+  then 
+  max=$3
+  else max=$max
+  fi
+  echo "Maximul numarului este: $max"
+}
+maxim 100 200 300

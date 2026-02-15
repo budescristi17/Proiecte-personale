@@ -1,0 +1,7 @@
+#!/bin/bash
+FRUCT="kiwi"
+case "$FRUCT" in
+"mar") echo "Marul este un fruct foarte sanatos";;
+"lamaie") echo "Lamaia este elementul principal al limonadei";;
+"kiwi") echo "Noua Zeelanda este faimoasa pentru kiwi!";;
+esac

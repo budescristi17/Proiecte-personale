@@ -1,0 +1,243 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <map>
+#include <algorithm>
+#include <iomanip>
+
+using namespace std;
+
+// ---------------- CLASA ABSTRACTA MARFA ----------------
+class Marfa {
+protected:
+    string cod;
+    string nume;
+    double pretUnitar;
+    int anFabricatie;
+    string tara;
+    double indiceCalitate; // 1.0 - 10.0
+
+public:
+    // Constructor cu parametri si valori implicite
+    Marfa(string c = "", string n = "", double p = 0, int an = 0, string t = "", double ic = 1.0)
+        : cod(c), nume(n), pretUnitar(p), anFabricatie(an), tara(t), indiceCalitate(ic) {}
+
+    virtual ~Marfa() {}
+
+    // Getteri necesari
+    string getCod() const { return cod; }
+    string getTara() const { return tara; }
+    double getIndiceCalitate() const { return indiceCalitate; }
+    string getNume() const { return nume; }
+
+    // Metode virtuale
+    virtual string getTipTransport() = 0; // Metoda pur virtuala
+    virtual double getPretFinalTransport() { return pretUnitar; }
+
+    // Afisare
+    virtual void afisare(ostream& out) const {
+        out << left << setw(6) << cod << setw(20) << nume << setw(15) << tara 
+            << "Pret:" << setw(8) << pretUnitar << "Calitate:" << indiceCalitate;
+    }
+
+    friend ostream& operator<<(ostream& out, const Marfa& m) {
+        m.afisare(out);
+        return out;
+    }
+};
+
+// ---------------- CLASE DERIVATE ----------------
+
+class MarfaGenerala : public Marfa {
+protected:
+    double greutate;
+    double volum;
+
+public:
+    MarfaGenerala(string c="", string n="", double p=0, int an=0, string t="", double ic=1.0, double g=0, double v=0)
+        : Marfa(c, n, p, an, t, ic), greutate(g), volum(v) {}
+
+    string getTipTransport() override { return "naval"; }
+
+    double getPretFinalTransport() override {
+        double pret = pretUnitar;
+        if (greutate > 1000) pret += pret * 0.20; // +20% taxa
+        return pret;
+    }
+
+    void afisare(ostream& out) const override {
+        Marfa::afisare(out);
+        out << " | Naval (G:" << greutate << ")";
+    }
+};
+
+class MarfaPerisabila : public Marfa {
+    double tempDepozitare;
+    int durataValabilitate;
+
+public:
+    MarfaPerisabila(string c="", string n="", double p=0, int an=0, string t="", double ic=1.0, double temp=0, int dur=0)
+        : Marfa(c, n, p, an, t, ic), tempDepozitare(temp), durataValabilitate(dur) {}
+
+    string getTipTransport() override { return "aerian"; }
+
+    double getPretFinalTransport() override {
+        return pretUnitar + (pretUnitar * 0.50); // +50% taxa refrigerare
+    }
+
+    void afisare(ostream& out) const override {
+        Marfa::afisare(out);
+        out << " | Aerian (Temp:" << tempDepozitare << ")";
+    }
+};
+
+class MarfaDigitala : public MarfaGenerala {
+    string codLicenta;
+
+public:
+    // Mosteneste MarfaGenerala, greutate/volum sunt 0
+    MarfaDigitala(string c="", string n="", double p=0, int an=0, string t="", double ic=1.0, string lic="")
+        : MarfaGenerala(c, n, p, an, t, ic, 0, 0), codLicenta(lic) {}
+
+    string getTipTransport() override { return "electronic"; }
+
+    double getPretFinalTransport() override {
+        return pretUnitar - (pretUnitar * 0.40); // -40% reducere
+    }
+
+    void afisare(ostream& out) const override {
+        Marfa::afisare(out);
+        out << " | Electronic (Lic:" << codLicenta << ")";
+    }
+};
+
+// ---------------- CLASA FIRMA ----------------
+class Firma {
+    vector<Marfa*> inventar;
+    double profitTotal = 0;
+    map<string, int> tranzactiiPeTari;
+
+public:
+    ~Firma() {
+        for (auto m : inventar) delete m;
+    }
+
+    void adaugaMarfa(Marfa* m) {
+        for (auto existent : inventar) {
+            if (existent->getCod() == m->getCod()) {
+                return; // Cod unic, nu adaugam duplicate
+            }
+        }
+        inventar.push_back(m);
+    }
+
+    friend ostream& operator<<(ostream& out, const Firma& f) {
+        out << "\n--- Inventar Firma ---\n";
+        for (auto m : f.inventar) {
+            out << *m << endl;
+        }
+        return out;
+    }
+
+    void exporta(string cod, int cantitate) {
+        for (auto m : inventar) {
+            if (m->getCod() == cod) {
+                double valoare = m->getPretFinalTransport() * cantitate;
+                profitTotal += valoare;
+                tranzactiiPeTari[m->getTara()] += cantitate;
+                return;
+            }
+        }
+    }
+
+    // Operator /= : returneaza marfuri cu pret <= pretMaxim
+    vector<Marfa*> operator/=(double pretMaxim) {
+        vector<Marfa*> rezultat;
+        for (auto m : inventar) {
+            if (m->getPretFinalTransport() <= pretMaxim) {
+                rezultat.push_back(m);
+            }
+        }
+        return rezultat;
+    }
+
+    // Metoda principala de logica din examen
+    void genereazaRaportCalitatePiete(vector<string> coduriExportate) {
+        map<string, int> frecventaCoduri;
+        for (const string& cod : coduriExportate) {
+            frecventaCoduri[cod]++;
+        }
+
+        // Pas 1: Calculam media indicilor de calitate pe fiecare tara
+        map<string, pair<double, int>> statisticaTari; // Tara -> <SumaIndici, NumarProduse>
+        
+        for (auto m : inventar) {
+            statisticaTari[m->getTara()].first += m->getIndiceCalitate();
+            statisticaTari[m->getTara()].second++;
+        }
+
+        cout << "\nRezultat raport calitate piete (Coduri acceptate):\n";
+        bool first = true;
+
+        // Pas 2: Iteram prin codurile unice exportate (map-ul le sorteaza automat alfabetic)
+        for (auto const& [cod, count] : frecventaCoduri) {
+            // Cautam produsul in inventar
+            Marfa* produs = nullptr;
+            for (auto m : inventar) {
+                if (m->getCod() == cod) {
+                    produs = m;
+                    break;
+                }
+            }
+
+            if (produs) {
+                string tara = produs->getTara();
+                double medieTara = statisticaTari[tara].first / statisticaTari[tara].second;
+
+                // Verificam conditia: indice produs >= medie tara
+                if (produs->getIndiceCalitate() >= medieTara) {
+                    if (!first) cout << ", ";
+                    cout << cod;
+                    first = false;
+                }
+            }
+        }
+        cout << endl;
+    }
+};
+
+// ---------------- MAIN CU DATELE DIN TABEL ----------------
+int main() {
+    Firma f;
+
+    // Adaugare date conform tabelului din imagine
+    // Nota: Am dedus tipurile (Generala/Perisabila/Digitala) din numele produselor
+    f.adaugaMarfa(new MarfaGenerala("M001", "Laptop Dell", 3000, 2022, "China", 8.5, 2.5, 0.01));
+    f.adaugaMarfa(new MarfaGenerala("M002", "iPhone 15", 5000, 2023, "China", 9.2, 0.2, 0.001));
+    f.adaugaMarfa(new MarfaPerisabila("M003", "Cafea Arabica", 50, 2024, "Brazilia", 7.8, 20, 365));
+    f.adaugaMarfa(new MarfaPerisabila("M004", "Soia", 10, 2024, "Brazilia", 6.5, 15, 180));
+    f.adaugaMarfa(new MarfaPerisabila("M005", "Carne de vita", 40, 2024, "Brazilia", 7.0, -4, 30));
+    f.adaugaMarfa(new MarfaGenerala("M006", "BMW X5", 60000, 2023, "Germania", 9.5, 2000, 10)); // >1000kg
+    f.adaugaMarfa(new MarfaGenerala("M007", "Turbina Siemens", 100000, 2021, "Germania", 9.8, 5000, 50));
+    f.adaugaMarfa(new MarfaDigitala("M008", "Licente SAP", 5000, 2024, "Germania", 8.9, "SAP-2024-KEY"));
+    f.adaugaMarfa(new MarfaGenerala("M009", "TV Samsung", 2000, 2023, "Coreea de Sud", 8.7, 15, 0.5));
+
+    // Afisare initiala
+    cout << f;
+
+    // Vectorul de importuri din imagine
+    vector<string> vectorImporturi = { 
+        "M002", "M003", "M001", "M002", "M007", "M003", "M002", "M004", "M008", "M009" 
+    };
+
+    // Apelare metoda
+    f.genereazaRaportCalitatePiete(vectorImporturi);
+
+    // Verificare:
+    // China Avg: (8.5+9.2)/2 = 8.85. M001(8.5 fail), M002(9.2 pass). -> M002
+    // Brazilia Avg: (7.8+6.5+7.0)/3 = 7.10. M003(7.8 pass), M004(6.5 fail). -> M003
+    // Germania Avg: (9.5+9.8+8.9)/3 = 9.40. M007(9.8 pass), M008(8.9 fail). -> M007
+    // Coreea Avg: 8.7. M009(8.7 pass). (Nota: M009 respecta conditia matematica, dar in exemplul din poza e omis, posibil dintr-o eroare a enuntului sau sortare ascunsa. Codul il va afisa daca e corect matematic).
+
+    return 0;
+}

@@ -1,0 +1,18 @@
+#!/bin/bash
+
+clear
+echo -n "Introduceti un numar: "
+read numar
+
+invers()
+{
+    numar_invers=0
+    while [ $numar -gt 0 ]; do
+        ultima_cifra=$((numar % 10))
+        numar_invers=$((numar_invers * 10 + ultima_cifra))
+        numar=$((numar / 10))
+    done
+}
+
+invers
+echo "Numarul inversat este: $numar_invers"

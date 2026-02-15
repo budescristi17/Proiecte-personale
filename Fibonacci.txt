@@ -1,0 +1,26 @@
+#!/bin/bash
+
+clear
+echo -n "Introduceti un numar n: "
+read n
+Fibonacci()
+{
+  if [ $1 -le 0 ]
+    echo 0
+    elif [ $1 -eq 1 ]; 
+    then
+        echo 1
+    else
+        a=0
+        b=1
+        for (( i=2; i<=$1; i++ ))
+        do
+            fn=$((a + b))
+            a=$b
+            b=$fn
+        done
+        echo $b
+    fi
+}
+rezultat=$(fibonacci $n)
+echo "Termenul al $n-lea din sirul Fibonacci este: $rezultat"
