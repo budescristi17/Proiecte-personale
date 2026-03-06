@@ -1,0 +1,5 @@
+BookOfRa;5;1200;Ion;25;500;100
+Hot777;7;2500;Maria;30;700;150
+VegasStar;4;900;George;22;300;50
+MegaFortune;6;3100;Ana;28;900;200
+LuckyLady;5;1700;Mihai;35;1200;3000
