@@ -54,7 +54,8 @@ namespace Seminar1 {
         public override string ToString() => $"|{Cod_Material,5}|{Denumire_Material,-25}|{Cantitate,7}|{Pret_Unitar,7:F2}|{Unitate_Masura,5}|{Valoare,9:F2}|\n";
 
     
-    
+
+
     }
 }
 
