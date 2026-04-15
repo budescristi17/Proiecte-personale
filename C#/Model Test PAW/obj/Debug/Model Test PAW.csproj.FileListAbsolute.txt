@@ -1,0 +1,15 @@
+C:\Users\CRISTI\SDD\Model Test PAW\Model Test PAW\bin\Debug\Model Test PAW.exe.config
+C:\Users\CRISTI\SDD\Model Test PAW\Model Test PAW\bin\Debug\Model Test PAW.exe
+C:\Users\CRISTI\SDD\Model Test PAW\Model Test PAW\bin\Debug\Model Test PAW.pdb
+C:\Users\CRISTI\SDD\Model Test PAW\Model Test PAW\obj\Debug\Model Test PAW.csproj.AssemblyReference.cache
+C:\Users\CRISTI\SDD\Model Test PAW\Model Test PAW\obj\Debug\Model_Test_PAW.Properties.Resources.resources
+C:\Users\CRISTI\SDD\Model Test PAW\Model Test PAW\obj\Debug\Model Test PAW.csproj.GenerateResource.cache
+C:\Users\CRISTI\SDD\Model Test PAW\Model Test PAW\obj\Debug\Model Test PAW.csproj.CoreCompileInputs.cache
+C:\Users\CRISTI\SDD\Model Test PAW\Model Test PAW\obj\Debug\Model Test PAW.exe
+C:\Users\CRISTI\SDD\Model Test PAW\Model Test PAW\obj\Debug\Model Test PAW.pdb
+C:\Users\CRISTI\SDD\Model Test PAW\Model Test PAW\bin\Debug\System.Data.SQLite.dll
+C:\Users\CRISTI\SDD\Model Test PAW\Model Test PAW\bin\Debug\System.Data.SQLite.xml
+C:\Users\CRISTI\SDD\Model Test PAW\Model Test PAW\obj\Debug\Model_Test_PAW.Form1.resources
+C:\Users\CRISTI\SDD\Model Test PAW\Model Test PAW\obj\Debug\Model_Test_PAW.FormMDI.resources
+C:\Users\CRISTI\SDD\Model Test PAW\Model Test PAW\obj\Debug\Model_Test_PAW.FormMedicamente.resources
+C:\Users\CRISTI\SDD\Model Test PAW\Model Test PAW\obj\Debug\Model Te.3CE5C58F.Up2Date
