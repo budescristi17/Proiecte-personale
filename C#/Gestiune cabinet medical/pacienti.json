@@ -1,0 +1,122 @@
+[
+  {
+    "Id": 1,
+    "Nume": "Dumitrescu",
+    "Prenume": "Elena",
+    "CNP": "2960101123456",
+    "DataNasterii": "1996-01-01T00:00:00",
+    "Telefon": "0733000001",
+    "Adresa": "Str. Libertatii nr. 10",
+    "GrupaSanguina": "A+",
+    "Asigurat": true,
+    "Observatii": "Alergie la penicilina"
+  },
+  {
+    "Id": 2,
+    "Nume": "Stan",
+    "Prenume": "Mihai",
+    "CNP": "1890505123456",
+    "DataNasterii": "1989-05-05T00:00:00",
+    "Telefon": "0733000002",
+    "Adresa": "Bd. Unirii nr. 25",
+    "GrupaSanguina": "0+",
+    "Asigurat": false,
+    "Observatii": "Hipertensiune"
+  },
+  {
+    "Id": 3,
+    "Nume": "Marin",
+    "Prenume": "Alex",
+    "CNP": "5010203123456",
+    "DataNasterii": "2001-02-03T00:00:00",
+    "Telefon": "0733000003",
+    "Adresa": "Str. Principala nr. 7",
+    "GrupaSanguina": "B+",
+    "Asigurat": true,
+    "Observatii": "Fara alergii cunoscute"
+  },
+  {
+    "Id": 4,
+    "Nume": "Iordache",
+    "Prenume": "Ana",
+    "CNP": "6020714123456",
+    "DataNasterii": "2002-07-14T00:00:00",
+    "Telefon": "0733000004",
+    "Adresa": "Str. Florilor nr. 18",
+    "GrupaSanguina": "AB-",
+    "Asigurat": true,
+    "Observatii": "Migrene ocazionale"
+  },
+  {
+    "Id": 5,
+    "Nume": "Neagu",
+    "Prenume": "Cristian",
+    "CNP": "1771122123456",
+    "DataNasterii": "1977-11-22T00:00:00",
+    "Telefon": "0733000005",
+    "Adresa": "Aleea Parcului nr. 3",
+    "GrupaSanguina": "A-",
+    "Asigurat": false,
+    "Observatii": "Diabet tip 2"
+  },
+  {
+    "Id": 6,
+    "Nume": "Toma",
+    "Prenume": "Bianca",
+    "CNP": "2990308123456",
+    "DataNasterii": "1999-03-08T00:00:00",
+    "Telefon": "0733000006",
+    "Adresa": "Bd. Republicii nr. 41",
+    "GrupaSanguina": "B-",
+    "Asigurat": true,
+    "Observatii": "Astigmatism"
+  },
+  {
+    "Id": 7,
+    "Nume": "Radu",
+    "Prenume": "Paul",
+    "CNP": "1850915123456",
+    "DataNasterii": "1985-09-15T00:00:00",
+    "Telefon": "0733000007",
+    "Adresa": "Str. Teilor nr. 12",
+    "GrupaSanguina": "AB+",
+    "Asigurat": true,
+    "Observatii": "Durere lombara recurenta"
+  },
+  {
+    "Id": 8,
+    "Nume": "Munteanu",
+    "Prenume": "Laura",
+    "CNP": "2931210123456",
+    "DataNasterii": "1993-12-10T00:00:00",
+    "Telefon": "0733000008",
+    "Adresa": "Str. Victoriei nr. 55",
+    "GrupaSanguina": "0-",
+    "Asigurat": false,
+    "Observatii": "Dermatita atopica"
+  },
+  {
+    "Id": 9,
+    "Nume": "Ilie",
+    "Prenume": "Stefan",
+    "CNP": "5040416123456",
+    "DataNasterii": "2004-04-16T00:00:00",
+    "Telefon": "0733000009",
+    "Adresa": "Str. Independentei nr. 2",
+    "GrupaSanguina": "A+",
+    "Asigurat": true,
+    "Observatii": "Control periodic"
+  },
+  {
+    "Id": 10,
+    "Nume": "Barbu",
+    "Prenume": "Nicoleta",
+    "CNP": "2680625123456",
+    "DataNasterii": "1968-06-25T00:00:00",
+    "Telefon": "0733000010",
+    "Adresa": "Bd. Dacia nr. 9",
+    "GrupaSanguina": "0+",
+    "Asigurat": true,
+    "Observatii": "Hipotiroidism"
+  }
+]

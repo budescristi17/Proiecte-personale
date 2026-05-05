@@ -1,0 +1,82 @@
+[
+  {
+    "Id": 1,
+    "Nume": "Popescu",
+    "Prenume": "Andrei",
+    "Specializare": "Medicina interna",
+    "Telefon": "0722000001",
+    "Email": "andrei.popescu@cabinet.ro",
+    "AniExperienta": 12,
+    "ProgramLucru": "Luni-Vineri 08:00-14:00"
+  },
+  {
+    "Id": 2,
+    "Nume": "Ionescu",
+    "Prenume": "Maria",
+    "Specializare": "Pediatrie",
+    "Telefon": "0722000002",
+    "Email": "maria.ionescu@cabinet.ro",
+    "AniExperienta": 8,
+    "ProgramLucru": "Luni-Joi 12:00-18:00"
+  },
+  {
+    "Id": 3,
+    "Nume": "Vasilescu",
+    "Prenume": "Ioana",
+    "Specializare": "Cardiologie",
+    "Telefon": "0722000003",
+    "Email": "ioana.vasilescu@cabinet.ro",
+    "AniExperienta": 15,
+    "ProgramLucru": "Luni-Miercuri 09:00-15:00"
+  },
+  {
+    "Id": 4,
+    "Nume": "Georgescu",
+    "Prenume": "Radu",
+    "Specializare": "Dermatologie",
+    "Telefon": "0722000004",
+    "Email": "radu.georgescu@cabinet.ro",
+    "AniExperienta": 10,
+    "ProgramLucru": "Marti-Vineri 10:00-16:00"
+  },
+  {
+    "Id": 5,
+    "Nume": "Marin",
+    "Prenume": "Claudia",
+    "Specializare": "Neurologie",
+    "Telefon": "0722000005",
+    "Email": "claudia.marin@cabinet.ro",
+    "AniExperienta": 14,
+    "ProgramLucru": "Luni-Vineri 13:00-19:00"
+  },
+  {
+    "Id": 6,
+    "Nume": "Dobre",
+    "Prenume": "Alexandru",
+    "Specializare": "Ortopedie",
+    "Telefon": "0722000006",
+    "Email": "alexandru.dobre@cabinet.ro",
+    "AniExperienta": 9,
+    "ProgramLucru": "Luni-Joi 08:30-14:30"
+  },
+  {
+    "Id": 7,
+    "Nume": "Enache",
+    "Prenume": "Sorina",
+    "Specializare": "Endocrinologie",
+    "Telefon": "0722000007",
+    "Email": "sorina.enache@cabinet.ro",
+    "AniExperienta": 11,
+    "ProgramLucru": "Miercuri-Vineri 11:00-17:00"
+  },
+  {
+    "Id": 8,
+    "Nume": "Dumitru",
+    "Prenume": "Victor",
+    "Specializare": "Oftalmologie",
+    "Telefon": "0722000008",
+    "Email": "victor.dumitru@cabinet.ro",
+    "AniExperienta": 7,
+    "ProgramLucru": "Luni-Vineri 09:30-15:30"
+  }
+]
