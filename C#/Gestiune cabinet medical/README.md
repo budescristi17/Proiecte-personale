@@ -1,0 +1,2 @@
+# Gestiune cabinet medical
+Aplicație desktop realizată în C# cu Windows Forms și .NET 8, pentru gestiunea unui cabinet medical. Proiectul permite administrarea medicilor, pacienților și rețetelor, include funcții de adăugare, editare, ștergere, căutare și raportare, iar datele sunt salvate local în fișiere JSON. Aplicația este organizată pe clase, servicii și formulare, fiind potrivită pentru un proiect educațional de facultate.
